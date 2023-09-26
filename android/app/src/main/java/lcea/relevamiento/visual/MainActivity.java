@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package lcea.relevamiento.visual;
 
 import com.getcapacitor.BridgeActivity;
 

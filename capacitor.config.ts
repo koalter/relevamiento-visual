@@ -1,11 +1,16 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'RelevamientoVisual',
+  appId: 'lcea.relevamiento.visual',
+  appName: 'Relevamiento Visual',
   webDir: 'www',
   server: {
     androidScheme: 'https'
+  },
+  plugins: {
+    SplashScreen: {
+      launchAutoHide: false
+    }
   }
 };
 
