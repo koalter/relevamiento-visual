@@ -1,3 +1,4 @@
+// default styles
 #container {
   text-align: center;
 
@@ -24,4 +25,10 @@
 
 #container a {
   text-decoration: none;
+}
+// end default styles
+
+.bigger {
+  --padding-top: 18vh;
+  --padding-bottom: 18vh;
 }

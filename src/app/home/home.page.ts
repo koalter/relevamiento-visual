@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +9,21 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+
+  logoutButtons = [
+    {
+      text: 'Cancelar',
+      role: 'cancel',
+      cssClass: ['ion-color-danger'],
+    },
+    {
+      text: 'Confirmar',
+      role: 'confirm',
+      cssClass: ['ion-color-success'],
+      handler: () => this.logout()
+    }
+  ]
+
   constructor(
     private auth: AuthService,
     private router: Router,

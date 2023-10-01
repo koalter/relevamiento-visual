@@ -5,6 +5,10 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 
 const routes: Routes = [
   {
+    path: '',
+    component: SplashScreenComponent
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
     canActivate: [AuthGuard],
@@ -17,9 +21,14 @@ const routes: Routes = [
     data: { authGuardPipe: () => redirectLoggedInTo(['home']) }
   },
   {
-    path: '',
-    component: SplashScreenComponent
+    path: 'cosas-lindas',
+    loadChildren: () => import('./cosas-lindas/cosas-lindas.module').then( m => m.CosasLindasPageModule)
   },
+  {
+    path: 'cosas-feas',
+    loadChildren: () => import('./cosas-feas/cosas-feas.module').then( m => m.CosasFeasPageModule)
+  },
+
 ];
 
 @NgModule({

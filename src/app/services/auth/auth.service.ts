@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { Logger } from '../services/logger.service';
+import { Logger } from '../logger/logger.service';
 
 @Injectable({
   providedIn: 'root'
