@@ -32,3 +32,12 @@
   --padding-top: 18vh;
   --padding-bottom: 18vh;
 }
+
+#ugly {
+  --background: url('../../assets/ugly.jpg') no-repeat center center;
+  --color: var(--ion-color-dark);
+}
+
+#nice {
+  --background: url('../../assets/nice.jpg') no-repeat center center;
+}

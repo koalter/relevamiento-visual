@@ -7,23 +7,39 @@ import { PhotoService } from '../services/photo/photo.service';
   templateUrl: './cosas-lindas.page.html',
   styleUrls: ['./cosas-lindas.page.scss'],
 })
-export class CosasLindasPage implements OnInit {
+export class CosasLindasPage {
 
   photos = this.photoService.nicePhotos;
+  selectedIndex: number | undefined;
+  toastButtons = [
+    {
+      text: 'Cancelar',
+      role: 'cancel',
+      handler: () => this.selectedIndex = undefined
+    },
+    {
+      text: 'Votar',
+      handler: () => {
+        this.selectedIndex = undefined;
+      }
+    }
+  ];
 
   constructor(
     private location: Location,
     private photoService: PhotoService
   ) { }
 
-  ngOnInit() {
-  }
-
   takePhoto() {
     this.photoService.addNicePhoto();
   }
 
+  selectIndex(index: number) {
+    this.selectedIndex = index;
+  }
+
   back() {
+    this.selectedIndex = undefined;
     this.location.back();
   }
 }

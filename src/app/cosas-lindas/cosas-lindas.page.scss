@@ -11,3 +11,12 @@ ion-fab {
   top: 50%;
   transform: translateY(-50%);
 }
+
+.select {
+  outline: 5px solid var(--ion-color-primary);
+}
+
+ion-toast {
+  --background: var(--ion-color-dark);
+  --button-color: var(--ion-color-light);
+}
