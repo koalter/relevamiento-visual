@@ -1,6 +1,4 @@
-import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { PhotoService } from '../services/photo/photo.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-cosas-lindas',
@@ -9,37 +7,6 @@ import { PhotoService } from '../services/photo/photo.service';
 })
 export class CosasLindasPage {
 
-  photos = this.photoService.nicePhotos;
-  selectedIndex: number | undefined;
-  toastButtons = [
-    {
-      text: 'Cancelar',
-      role: 'cancel',
-      handler: () => this.selectedIndex = undefined
-    },
-    {
-      text: 'Votar',
-      handler: () => {
-        this.selectedIndex = undefined;
-      }
-    }
-  ];
+  constructor() { }
 
-  constructor(
-    private location: Location,
-    private photoService: PhotoService
-  ) { }
-
-  takePhoto() {
-    this.photoService.addNicePhoto();
-  }
-
-  selectIndex(index: number) {
-    this.selectedIndex = index;
-  }
-
-  back() {
-    this.selectedIndex = undefined;
-    this.location.back();
-  }
 }

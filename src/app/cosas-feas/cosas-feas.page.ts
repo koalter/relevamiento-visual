@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { PhotoService } from '../services/photo/photo.service';
+import { VoteService } from '../services/vote/vote.service';
 
 @Component({
   selector: 'app-cosas-feas',
@@ -19,7 +20,8 @@ export class CosasFeasPage {
     },
     {
       text: 'Votar',
-      handler: () => {
+      handler: async () => {
+        await this.voteService.emitVote(this.photos[this.selectedIndex!].name, 'feas');
         this.selectedIndex = undefined;
       }
     }
@@ -27,7 +29,8 @@ export class CosasFeasPage {
 
   constructor(
     private location: Location,
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private voteService: VoteService
   ) { }
 
   takePhoto() {
