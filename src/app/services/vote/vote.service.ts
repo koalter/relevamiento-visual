@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, getDocs, query, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, Unsubscribe, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthService } from '../auth/auth.service';
 import { Logger } from '../logger/logger.service';
 
@@ -48,9 +48,9 @@ export class VoteService {
     try {
       const user = this.authService.user?.email;
       const docRef = doc(this.firestore, 'votaciones', user!);
-      
+
       const docSnap = await getDoc(docRef);
-  
+
       if (docSnap.exists()) {
         const data = docSnap.data();
         return data[gallery];
@@ -61,6 +61,14 @@ export class VoteService {
   }
 
   async getAllNice(): Promise<string[]> {
+    return await this.getAllByCategory('lindas');
+  }
+
+  async getAllUgly(): Promise<string[]> {
+    return await this.getAllByCategory('feas');
+  }
+
+  private async getAllByCategory(category: string): Promise<string[]> {
     const result: string[] = [];
     try {
       const q = query(collection(this.firestore, 'votaciones'));
@@ -68,7 +76,9 @@ export class VoteService {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach(doc => {
         const data = doc.data();
-        result.push(data['lindas']);
+        if (data[category]) {
+          result.push(data[category]);
+        }
       });
     } catch (e: any) {
       this.logger.logError(e);

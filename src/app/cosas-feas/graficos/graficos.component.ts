@@ -1,7 +1,7 @@
-import {Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { VoteService } from '../../services/vote/vote.service';
-import * as Highcharts from 'highcharts';
+import { Component, OnInit } from '@angular/core';
+import * as Highcharts from "highcharts";
+import { Router } from "@angular/router";
+import { VoteService } from "../../services/vote/vote.service";
 import { PhotoService } from "../../services/photo/photo.service";
 
 @Component({
@@ -9,7 +9,7 @@ import { PhotoService } from "../../services/photo/photo.service";
   templateUrl: './graficos.component.html',
   styleUrls: ['./graficos.component.scss'],
 })
-export class GraficosComponent implements OnInit {
+export class GraficosComponent  implements OnInit {
 
   selectedPhoto: string = '';
   highcharts: typeof Highcharts = Highcharts;
@@ -17,15 +17,16 @@ export class GraficosComponent implements OnInit {
   isModalOpen: boolean = false;
 
   constructor(private router: Router,
-    private voteService: VoteService,
-    private photoService: PhotoService) { }
+              private voteService: VoteService,
+              private photoService: PhotoService) { }
 
   async ngOnInit() {
-    const votes = await this.voteService.getAllNice();
+    const votes = await this.voteService.getAllUgly();
+    const data = this.toChart(votes);
     this.chartOptions = {
       series: [{
-        type: 'pie',
-        data: this.toChart(votes),
+        type: 'bar',
+        data: data,
         name: 'Votos'
       }],
       title: { text: 'Resultados de votaciones' }
@@ -52,12 +53,12 @@ export class GraficosComponent implements OnInit {
   }
 
   getPhotoURL(name: string) {
-    return this.photoService.nicePhotos
+    return this.photoService.uglyPhotos
       .find(p => p.name === name)?.webViewPath as string;
   }
 
   async openModal() {
-    const photo = await this.voteService.getVote('lindas') as string;
+    const photo = await this.voteService.getVote('feas') as string;
     this.selectedPhoto = this.getPhotoURL(photo);
     this.isModalOpen = true;
   }

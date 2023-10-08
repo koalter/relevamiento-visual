@@ -45,8 +45,23 @@ export class LoginFormComponent {
     }
   }
 
-  fill() {
-    this.email.setValue('e@e.com');
-    this.password.setValue('123456');
+  fill(index: number = 0) {
+    this.email.setValue(TEST_USERS[index].email);
+    this.password.setValue(TEST_USERS[index].password);
   }
 }
+
+const TEST_USERS = [
+  {
+    email: 'e@e.com',
+    password: '123456'
+  },
+  {
+    email: 'a@a.com',
+    password: '123456'
+  },
+  {
+    email: 'i@i.com',
+    password: '123456'
+  }
+]

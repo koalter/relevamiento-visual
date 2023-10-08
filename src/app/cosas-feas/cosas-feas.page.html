@@ -1,49 +1,12 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title mode="ios">cosas feas</ion-title>
-    <ion-buttons slot="start">
-      <ion-button (click)="back()" color="primary">
-        <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
-        Volver
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-grid>
-    <ion-row *ngIf="photos && photos.length > 0; else noPhotos">
-      <ion-col size="6" *ngFor="let photo of photos; index as i">
-        <div [ngClass]="{'select': i === selectedIndex}" (click)="selectIndex(i)">
-          <ion-img [src]="photo.webViewPath"></ion-img>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ng-template #noPhotos>
-      <ion-row id="container" class="ion-align-items-center ion-justify-content-center">
-        <ion-col>
-          <div>
-            <ion-text color="medium">
-              <em>No se encontraron fotos.</em>
-            </ion-text>
-          </div>
-          <ion-button (click)="takePhoto()" fill="clear">
-            Agrega la primera
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ng-template>
-  </ion-grid>
-
-  <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-    <ion-fab-button (click)="takePhoto()">
-      <ion-icon name="camera-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  <ion-toast
-    mode="ios"
-    [isOpen]="selectedIndex !== undefined"
-    [buttons]="toastButtons"
-  ></ion-toast>
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar>
+    <ion-tab-button tab="galeria">
+      <ion-icon name="images"></ion-icon>
+      <ion-label>Galería</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="graficos">
+      <ion-icon name="pie-chart"></ion-icon>
+      <ion-label>Votaciones</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

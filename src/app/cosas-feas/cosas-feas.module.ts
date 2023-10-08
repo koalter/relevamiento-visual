@@ -7,6 +7,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { CosasFeasPageRoutingModule } from './cosas-feas-routing.module';
 
 import { CosasFeasPage } from './cosas-feas.page';
+import { GaleriaComponent } from "./galeria/galeria.component";
+import { GraficosComponent } from "./graficos/graficos.component";
 
 @NgModule({
   imports: [
@@ -16,6 +18,10 @@ import { CosasFeasPage } from './cosas-feas.page';
     CosasFeasPageRoutingModule,
     HighchartsChartModule
   ],
-  declarations: [CosasFeasPage]
+  declarations: [
+    CosasFeasPage,
+    GaleriaComponent,
+    GraficosComponent
+  ]
 })
 export class CosasFeasPageModule {}
