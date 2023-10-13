@@ -9,6 +9,7 @@ import { CosasLindasPageRoutingModule } from './cosas-lindas-routing.module';
 import { CosasLindasPage } from './cosas-lindas.page';
 import { GaleriaComponent } from './galeria/galeria.component';
 import { GraficosComponent } from './graficos/graficos.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { GraficosComponent } from './graficos/graficos.component';
     FormsModule,
     IonicModule,
     CosasLindasPageRoutingModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    SharedModule
   ],
   declarations: [
     CosasLindasPage,

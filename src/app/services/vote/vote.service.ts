@@ -8,6 +8,9 @@ import { Logger } from '../logger/logger.service';
 })
 export class VoteService {
 
+  niceVote: string = '';
+  uglyVote: string = '';
+
   constructor(private firestore: Firestore,
     private authService: AuthService,
     private logger: Logger) { }
@@ -20,20 +23,24 @@ export class VoteService {
 
       if (docSnap.exists()) {
         if (gallery === 'lindas') {
+          this.niceVote = picture;
           await updateDoc(ref, {
             lindas: picture
           });
         } else if (gallery === 'feas') {
+          this.uglyVote = picture;
           await updateDoc(ref, {
             feas: picture
           });
         }
       } else {
         if (gallery === 'lindas') {
+          this.niceVote = picture;
           await setDoc(ref, {
             lindas: picture
           });
         } else if (gallery === 'feas') {
+          this.uglyVote = picture;
           await setDoc(ref, {
             feas: picture
           });
@@ -44,7 +51,27 @@ export class VoteService {
     }
   }
 
-  async getVote(gallery: string) {
+  async getNiceVote() {
+    if (this.niceVote) {
+      return this.niceVote;
+    } else {
+      const vote = await this.getVote('lindas');
+      this.niceVote = vote;
+      return vote;
+    }
+  }
+
+  async getUglyVote() {
+    if (this.uglyVote) {
+      return this.uglyVote;
+    } else {
+      const vote = await this.getVote('feas');
+      this.uglyVote = vote;
+      return vote;
+    }
+  }
+
+  private async getVote(gallery: string) {
     try {
       const user = this.authService.user?.email;
       const docRef = doc(this.firestore, 'votaciones', user!);

@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { PhotoService } from '../../services/photo/photo.service';
 import { VoteService } from '../../services/vote/vote.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
+import { UserPhoto } from '../../models/user-photo';
+import { PhotoModalComponent } from '../../shared/photo-modal/photo-modal.component';
 
 @Component({
   selector: 'app-galeria',
@@ -33,7 +35,8 @@ export class GaleriaComponent {
     private router: Router,
     private photoService: PhotoService,
     private voteService: VoteService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private modalController: ModalController
   ) { }
 
   takePhoto() {
@@ -58,5 +61,19 @@ export class GaleriaComponent {
     await this.voteService.emitVote(this.photos[index].name, 'lindas');
 
     await toast.present();
+  }
+
+  async openModal(input: UserPhoto) {
+    const modal = await this.modalController.create({
+      component: PhotoModalComponent,
+      componentProps: {
+        id: input.name,
+        path: input.webViewPath
+      },
+      breakpoints: [0, 0.75],
+      initialBreakpoint: 0.75
+    });
+
+    await modal.present();
   }
 }

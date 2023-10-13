@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title mode="ios">{{id}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-img *ngIf="path; else noPhoto" class="modalPicture" [src]="path"></ion-img>
+  <ng-template #noPhoto>
+    <h3 class="ion-margin">Aún no ha votado por ninguna foto.</h3>
+  </ng-template>
+</ion-content>

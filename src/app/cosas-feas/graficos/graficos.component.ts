@@ -3,6 +3,8 @@ import * as Highcharts from "highcharts";
 import { Router } from "@angular/router";
 import { VoteService } from "../../services/vote/vote.service";
 import { PhotoService } from "../../services/photo/photo.service";
+import { ModalController } from '@ionic/angular';
+import { PhotoModalComponent } from '../../shared/photo-modal/photo-modal.component';
 
 @Component({
   selector: 'app-graficos',
@@ -11,22 +13,22 @@ import { PhotoService } from "../../services/photo/photo.service";
 })
 export class GraficosComponent  implements OnInit {
 
-  selectedPhoto: string = '';
   highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
-  isModalOpen: boolean = false;
 
   constructor(private router: Router,
               private voteService: VoteService,
-              private photoService: PhotoService) { }
+              private photoService: PhotoService,
+              private modalController: ModalController) { }
 
-  async ngOnInit() {
+  ngOnInit() { }
+
+  async ionViewWillEnter() {
     const votes = await this.voteService.getAllUgly();
-    const data = this.toChart(votes);
     this.chartOptions = {
       series: [{
         type: 'bar',
-        data: data,
+        data: this.toChart(votes),
         name: 'Votos'
       }],
       title: { text: 'Resultados de votaciones' }
@@ -58,9 +60,20 @@ export class GraficosComponent  implements OnInit {
   }
 
   async openModal() {
-    const photo = await this.voteService.getVote('feas') as string;
-    this.selectedPhoto = this.getPhotoURL(photo);
-    this.isModalOpen = true;
+    const photo = await this.voteService.getUglyVote() as string;
+    const path = this.getPhotoURL(photo);
+    
+    const modal = await this.modalController.create({
+      component: PhotoModalComponent,
+      componentProps: {
+        id: photo,
+        path: path
+      },
+      breakpoints: [0, 0.75],
+      initialBreakpoint: 0.75
+    });
+
+    await modal.present();
   }
 
   back() {
