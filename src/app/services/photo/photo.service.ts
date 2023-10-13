@@ -3,12 +3,7 @@ import { Storage, getDownloadURL, list, ref, uploadString } from '@angular/fire/
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AuthService } from '../auth/auth.service';
 import { Logger } from '../logger/logger.service';
-
-export interface UserPhoto {
-  name: string,
-  webViewPath?: string,
-  timestamp: number
-}
+import { UserPhoto } from '../../models/user-photo';
 
 @Injectable({
   providedIn: 'root'
@@ -40,11 +35,7 @@ export class PhotoService {
           getDownloadURL(photo)
             .then(path => {
               const [email, timestamp] = photo.name.split(' ');
-              photoList.push({
-                name: photo.name,
-                webViewPath: path,
-                timestamp: parseInt(timestamp)
-              });
+              photoList.push(new UserPhoto(photo.name, parseInt(timestamp), path));
             });
         });
       })
@@ -75,11 +66,7 @@ export class PhotoService {
     try {
       await uploadString(storageRef, `data:image/jpeg;base64, ${capturedPhoto.base64String!}`, 'data_url');
       const webViewPath = await getDownloadURL(storageRef);
-      gallery.unshift({
-        name: storageRef.name,
-        webViewPath: webViewPath,
-        timestamp: date
-      });
+      gallery.unshift(new UserPhoto(storageRef.name, date, webViewPath));
     } catch (e: any) {
       this.logger.logError(e);
     }

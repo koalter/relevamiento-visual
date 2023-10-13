@@ -1,8 +1,8 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="translucent">
     <ion-title mode="ios">cosas lindas</ion-title>
     <ion-buttons slot="start">
-      <ion-button (click)="back()" color="primary">
+      <ion-button (click)="back()" color="light">
         <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
         Volver
       </ion-button>
@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
+  <!-- <ion-grid>
     <ion-row *ngIf="photos && photos.length > 0; else noPhotos">
       <ion-col size="6" *ngFor="let photo of photos; index as i">
         <div [ngClass]="{'select': i === selectedIndex}" (click)="selectIndex(i)">
@@ -19,21 +19,33 @@
         </div>
       </ion-col>
     </ion-row>
-    <ng-template #noPhotos>
-      <ion-row id="container" class="ion-align-items-center ion-justify-content-center">
-        <ion-col>
-          <div>
-            <ion-text color="medium">
-              <em>No se encontraron fotos.</em>
-            </ion-text>
-          </div>
-          <ion-button (click)="takePhoto()" fill="clear">
-            Agrega la primera
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ng-template>
-  </ion-grid>
+  </ion-grid> -->
+
+  <ion-row *ngIf="!photos || photos.length == 0; else photosContainer" id="container" class="ion-align-items-center ion-justify-content-center">
+    <ion-col>
+      <div>
+        <ion-text color="medium">
+          <em>No se encontraron fotos.</em>
+        </ion-text>
+      </div>
+      <ion-button (click)="takePhoto()" fill="clear">
+        Agrega la primera
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ng-template #photosContainer>
+    <ion-card *ngFor="let photo of photos; index as i">
+      <ion-item lines="none" class="ion-no-padding">
+        <img class="card-image" [src]="photo.webViewPath">
+        <ion-card-header>
+          <ion-card-title>{{ photo.user }}</ion-card-title>
+          <ion-card-subtitle>{{ photo.date }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-chip slot="end" color="primary" (click)="vote(i)">Votar</ion-chip>
+      </ion-item>
+    </ion-card>
+  </ng-template>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
     <ion-fab-button (click)="takePhoto()">

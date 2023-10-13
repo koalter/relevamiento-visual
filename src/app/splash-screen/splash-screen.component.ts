@@ -11,7 +11,7 @@ export class SplashScreenComponent  implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.hide(2000);
+    this.hide(3000);
   }
 
   hide(showDuration: number = 500) {
