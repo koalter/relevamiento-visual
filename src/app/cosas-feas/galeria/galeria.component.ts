@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PhotoService } from "../../services/photo/photo.service";
 import { VoteService } from "../../services/vote/vote.service";
 import { Router } from '@angular/router';
@@ -11,9 +11,9 @@ import { ModalController, ToastController } from '@ionic/angular';
   templateUrl: './galeria.component.html',
   styleUrls: ['./galeria.component.scss'],
 })
-export class GaleriaComponent {
+export class GaleriaComponent implements OnInit {
 
-  photos = this.photoService.uglyPhotos;
+  photos: UserPhoto[] = [];
   selectedIndex: number | undefined;
   toastButtons = [
     {
@@ -37,6 +37,10 @@ export class GaleriaComponent {
     private toastController: ToastController,
     private modalController: ModalController
   ) { }
+
+  async ngOnInit() {
+    this.photos = await this.photoService.getUglyPhotos();
+  }
 
   takePhoto() {
     this.photoService.addUglyPhoto();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PhotoService } from '../../services/photo/photo.service';
 import { VoteService } from '../../services/vote/vote.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { PhotoModalComponent } from '../../shared/photo-modal/photo-modal.compon
   templateUrl: './galeria.component.html',
   styleUrls: ['./galeria.component.scss'],
 })
-export class GaleriaComponent {
+export class GaleriaComponent implements OnInit {
 
   photos = this.photoService.nicePhotos;
   selectedIndex: number | undefined;
@@ -24,7 +24,6 @@ export class GaleriaComponent {
     {
       text: 'Votar',
       handler: async () => {
-        debugger
         await this.voteService.emitVote(this.photos[this.selectedIndex!].name, 'lindas');
         this.selectedIndex = undefined;
       }
@@ -38,6 +37,10 @@ export class GaleriaComponent {
     private toastController: ToastController,
     private modalController: ModalController
   ) { }
+
+  async ngOnInit() {
+    this.photos = await this.photoService.getNicePhotos();
+  }
 
   takePhoto() {
     this.photoService.addNicePhoto();

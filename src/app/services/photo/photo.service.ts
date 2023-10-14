@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage, getDownloadURL, list, ref, uploadString } from '@angular/fire/storage';
+import { Storage, getDownloadURL, getMetadata, list, ref, uploadString } from '@angular/fire/storage';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AuthService } from '../auth/auth.service';
 import { Logger } from '../logger/logger.service';
@@ -20,29 +20,32 @@ export class PhotoService {
     private storage: Storage,
     private authService: AuthService,
     private logger: Logger
-  ) { 
-    const niceRef = ref(this.storage, this.NICE_BUCKET);
-    const uglyRef = ref(this.storage, this.UGLY_BUCKET);
+  ) { }
 
-    this.build(niceRef, this.nicePhotos);
-    this.build(uglyRef, this.uglyPhotos);
-  }
-
-  build(ref: any, photoList: UserPhoto[]) {
-    list(ref)
-      .then(res => {
-        res.items.forEach(photo => {
-          getDownloadURL(photo)
-            .then(path => {
-              const [email, timestamp] = photo.name.split(' ');
-              photoList.push(new UserPhoto(photo.name, parseInt(timestamp), path));
-            });
-        });
-      })
-      .finally(() => {
-        // sort by date desc
+  async build(ref: any, photoList: UserPhoto[]) {
+    try {
+      const listResult = await list(ref);
+      listResult.items.forEach(async photo => {
+        const path = await getDownloadURL(photo);
+        const [email, timestamp] = photo.name.split(' ');
+        photoList.push(new UserPhoto(photo.name, parseInt(timestamp), path));
         photoList.sort((a, b) => b.timestamp - a.timestamp);
       });
+    } catch (e: any) {
+      this.logger.logError(e);
+    }
+  }
+
+  async getNicePhotos() {
+    const res: UserPhoto[] = [];
+    await this.build(ref(this.storage, this.NICE_BUCKET), res);
+    return res;
+  }
+
+  async getUglyPhotos() {
+    const res: UserPhoto[] = [];
+    await this.build(ref(this.storage, this.UGLY_BUCKET), res);
+    return res;
   }
 
   async addNicePhoto() {
