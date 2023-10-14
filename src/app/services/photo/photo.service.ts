@@ -13,14 +13,29 @@ export class PhotoService {
   private readonly NICE_BUCKET = 'relevamiento-visual/lindas';
   private readonly UGLY_BUCKET = 'relevamiento-visual/feas';
 
-  nicePhotos: UserPhoto[] = [];
-  uglyPhotos: UserPhoto[] = [];
-
   constructor(
     private storage: Storage,
     private authService: AuthService,
     private logger: Logger
   ) { }
+
+  async getUglySrc(name: string) {
+    return await this.getSrc(name, this.UGLY_BUCKET);
+  }
+
+  async getNiceSrc(name: string) {
+    return await this.getSrc(name, this.NICE_BUCKET);
+  }
+
+  private async getSrc(name: string, prefix: string) {
+    try {
+      const result = await ref(this.storage, `${prefix}/${name}`);
+      return await getDownloadURL(result);
+    } catch (e: any) {
+      this.logger.logError(e);
+      return null;
+    }
+  }
 
   async build(ref: any, photoList: UserPhoto[]) {
     try {
@@ -48,12 +63,12 @@ export class PhotoService {
     return res;
   }
 
-  async addNicePhoto() {
-    return await this.addNewToGallery(this.nicePhotos, this.NICE_BUCKET);
+  async addNicePhoto(gallery: UserPhoto[]) {
+    return await this.addNewToGallery(gallery, this.NICE_BUCKET);
   }
 
-  async addUglyPhoto() {
-    return await this.addNewToGallery(this.uglyPhotos, this.UGLY_BUCKET);
+  async addUglyPhoto(gallery: UserPhoto[]) {
+    return await this.addNewToGallery(gallery, this.UGLY_BUCKET);
   }
 
   private async addNewToGallery(gallery: UserPhoto[], bucket: string) {

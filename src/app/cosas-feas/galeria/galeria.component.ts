@@ -43,7 +43,7 @@ export class GaleriaComponent implements OnInit {
   }
 
   takePhoto() {
-    this.photoService.addUglyPhoto();
+    this.photoService.addUglyPhoto(this.photos);
   }
 
   selectIndex(index: number) {

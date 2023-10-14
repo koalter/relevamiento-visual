@@ -54,14 +54,15 @@ export class GraficosComponent implements OnInit {
     return result;
   }
 
-  getPhotoURL(name: string) {
-    return this.photoService.nicePhotos
-      .find(p => p.name === name)?.webViewPath as string;
+  async getPhotoURL(name: string) {
+    return await this.photoService.getNiceSrc(name);
+    // return this.photoService.nicePhotos
+    //   .find(p => p.name === name)?.webViewPath as string;
   }
 
   async openModal() {
     const photo = await this.voteService.getNiceVote() as string;
-    const path = this.getPhotoURL(photo);
+    const path = await this.getPhotoURL(photo);
 
     const modal = await this.modalController.create({
       component: PhotoModalComponent,

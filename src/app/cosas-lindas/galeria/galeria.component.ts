@@ -13,7 +13,7 @@ import { PhotoModalComponent } from '../../shared/photo-modal/photo-modal.compon
 })
 export class GaleriaComponent implements OnInit {
 
-  photos = this.photoService.nicePhotos;
+  photos: UserPhoto[] = [];
   selectedIndex: number | undefined;
   toastButtons = [
     {
@@ -43,7 +43,7 @@ export class GaleriaComponent implements OnInit {
   }
 
   takePhoto() {
-    this.photoService.addNicePhoto();
+    this.photoService.addNicePhoto(this.photos);
   }
 
   selectIndex(index: number) {
